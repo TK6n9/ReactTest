@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from "react";
-// import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import Nav from "react-bootstrap/Nav";
+import React, { useEffect, useState, useRef } from "react";
+import { CheckIcon, ThumbUpIcon, UserIcon } from "@heroicons/react/solid";
+
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-// import Paging from "../paging";
+import "../component/Test.css";
 
 function UserPage(props) {
   let [tab, setTab] = useState(0);
 
   const params = useParams();
+  let aaa = true;
+  aaa = !aaa;
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
 
   let NewArray = [];
 
@@ -19,28 +24,33 @@ function UserPage(props) {
     }
   }
 
+  function UserName() {
+    for (let i = 0; i < props.전달값.length; i++) {
+      if (props.유저값[i].id == params.id) {
+        return props.유저값[i].name;
+      }
+    }
+  }
+
   function TabContent(props) {
-    if (props.tab === 0)
+    if (props.tab === 0) {
       return (
-        <>
-          <div>
-            {" "}
-            {NewArray.map(function (data, index) {
-              return (
-                <Link
-                  to={`/user/${data.userId}/detail/${data.id}/completed/all`}
-                  style={{ color: "black", textDecoration: "none" }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      margin: "10px",
-                      fontSize: "16px",
-                    }}
-                  >
-                    제목은 : {data.title}{" "}
-                    <div style={{ fontSize: "16px" }}>
+        <div className="flow-root">
+          <ul role="list" className="-mb-8">
+            {NewArray.map((data, eventIdx) => (
+              <li key={data.id}>
+                <div className="relative pb-8">
+                  <div className="relative flex space-x-3">
+                    <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                      <div>
+                        <Link
+                          to={`/user/${data.userId}/detail/${data.id}/completed/all`}
+                        >
+                          <a className="font-medium text-gray-900">
+                            제목 : {data.title}
+                          </a>
+                        </Link>
+                      </div>
                       <div
                         style={{
                           color: data.completed === true ? "red" : "blue",
@@ -51,133 +61,163 @@ function UserPage(props) {
                       </div>
                     </div>
                   </div>
-                </Link>
-              );
-            })}
-          </div>
-        </>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       );
-    else if (props.tab === 1)
+    } else if (props.tab === 1) {
       return (
         <>
-          <div>
-            {" "}
-            {NewArray.map(function (data, index) {
-              return data.completed === false ? (
-                <Link
-                  to={`/user/${data.userId}/detail/${data.id}/completed/${data.completed}`}
-                  style={{ color: "black", textDecoration: "none" }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      margin: "10px",
-                      fontSize: "16px",
-                    }}
-                  >
-                    제목은 : {data.title} {JSON.stringify(data.completed)}
-                    <div
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: "700",
-                        color: data.completed === true ? "red" : "blue",
-                      }}
-                    >
-                      {JSON.stringify(data.completed)}
+          <div className="flow-root">
+            <ul role="list" className="-mb-8">
+              {NewArray.map((data, eventIdx) =>
+                data.completed === false ? (
+                  <li key={data.id}>
+                    <div className="relative pb-8">
+                      <div className="relative flex space-x-3">
+                        <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                          <div>
+                            <Link
+                              to={`/user/${data.userId}/detail/${data.id}/completed/${data.completed}`}
+                            >
+                              <a className="font-medium text-gray-900">
+                                제목 : {data.title}
+                              </a>
+                            </Link>
+                          </div>
+                          <div
+                            style={{
+                              color: data.completed === true ? "red" : "blue",
+                              fontWeight: "700",
+                            }}
+                          >
+                            {JSON.stringify(data.completed)}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ) : (
-                ""
-              );
-            })}
+                  </li>
+                ) : (
+                  ""
+                )
+              )}
+            </ul>
           </div>
-          {/* <Paging></Paging> */}
         </>
       );
-    else
+    } else if (props.tab === 2) {
       return (
         <>
-          <div>
-            {NewArray.map(function (data, index) {
-              return data.completed === true ? (
-                <Link
-                  to={`/user/${data.userId}/detail/${data.id}/completed/${data.completed}`}
-                  style={{
-                    fontSize: "16px",
-
-                    color: "black",
-                    textDecoration: "none",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      margin: "10px",
-                      fontSize: "16px",
-                    }}
-                  >
-                    제목은 : {data.title} {JSON.stringify(data.completed)}
-                    <div
-                      style={{
-                        color: data.completed === true ? "red" : "blue",
-                        fontWeight: "700",
-                      }}
-                    >
-                      {JSON.stringify(data.completed)}
+          <div className="flow-root">
+            <ul role="list" className="-mb-8">
+              {NewArray.map((data, eventIdx) =>
+                data.completed === true ? (
+                  <li key={data.id}>
+                    <div className="relative pb-8">
+                      <div className="relative flex space-x-3">
+                        <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                          <div>
+                            <Link
+                              to={`/user/${data.userId}/detail/${data.id}/completed/${data.completed}`}
+                            >
+                              <a className="font-medium text-gray-900">
+                                제목 : {data.title}
+                              </a>
+                            </Link>
+                          </div>
+                          <div
+                            style={{
+                              color: data.completed === true ? "red" : "blue",
+                              fontWeight: "700",
+                            }}
+                          >
+                            {JSON.stringify(data.completed)}
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              ) : (
-                ""
-              );
-            })}
+                  </li>
+                ) : (
+                  ""
+                )
+              )}
+            </ul>
           </div>
-          {/* <Paging></Paging> */}
         </>
       );
+    }
   }
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: "10px",
-          fontSize: "24px",
-          fontWeight: "700",
-        }}
-      >
-        유저이름은 :{NewArray[0].userId}
-        <br />
-      </div>
-      <Card>
-        <Card.Header>
-          <Nav variant="tabs" defaultActiveKey="link-0">
-            <Nav.Item>
-              <Nav.Link eventKey="link-0" onClick={() => setTab(0)}>
+      <div className="pb-5 border-b border-gray-200 sm:pb-0">
+        <h3 className="text-lg leading-6 font-medium text-gray-900">
+          유저이름은 : {UserName()}
+        </h3>
+        <div className="mt-3 sm:mt-4">
+          <div className="sm:hidden">
+            {/* <label htmlFor="TF" className="sr-only">
+              Select a tab
+            </label>
+            <select
+              id="current-tab"
+              name="current-tab"
+              defaultValue={TF}
+              className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            >
+              <option key={setTF()}>모두</option>
+                <option key={setTF()}>초안</option>
+                <option key={setTF()}>완료</option>
+            </select> */}
+          </div>
+          <div className="hidden sm:block">
+            <nav className="-mb-px flex space-x-8">
+              <a
+                onClick={() => {
+                  setTab(0);
+                }}
+                className={classNames(
+                  aaa
+                    ? "border-indigo-500 text-indigo-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
+                  "whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm"
+                )}
+              >
                 모두
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="link-1" onClick={() => setTab(1)}>
+              </a>
+              <a
+                onClick={() => {
+                  setTab(1);
+                }}
+                className={classNames(
+                  aaa
+                    ? "border-indigo-500 text-indigo-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
+                  "whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm"
+                )}
+              >
                 초안
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="link-2" onClick={() => setTab(2)}>
+              </a>
+              <a
+                onClick={() => {
+                  setTab(2);
+                }}
+                className={classNames(
+                  aaa
+                    ? "border-indigo-500 text-indigo-600"
+                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300",
+                  "whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm"
+                )}
+              >
                 완료
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
-        </Card.Header>
-        <Card.Body>
-          <TabContent tab={tab} />
-        </Card.Body>
-      </Card>
+              </a>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <TabContent tab={tab} />
     </>
   );
 }
